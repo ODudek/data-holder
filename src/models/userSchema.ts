@@ -3,47 +3,47 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const UserSchema = new Schema({
-    username: {
-        type: String,
-        require
-    },
-    email: {
-        type: String,
-        require
-    },
-    firstName: {
-        type: String
-    },
-    surname: {
-        type: String
-    },
     address: {
+        city: {
+            type: String,
+        },
         street: {
-            type: String
+            type: String,
         },
         suite: {
-            type: String
-        },
-        city: {
-            type: String
+            type: String,
         },
         zipcode: {
-            type: String
+            type: String,
         },
     },
-    phone: {
-        type: Number
-    },
-    website: {
-        type: String
-    },
-    compoany: {
+    company: {
         name: {
-            type: String
-        }
+            type: String,
+        },
     },
     createdDate: {
+        default: Date.now,
         type: Date,
-        default: Date.now
-    }
+    },
+    email: {
+        require,
+        type: String,
+    },
+    firstName: {
+        type: String,
+    },
+    phone: {
+        type: Number,
+    },
+    surname: {
+        type: String,
+    },
+    username: {
+        require,
+        type: String,
+    },
+    website: {
+        type: String,
+    },
 });
