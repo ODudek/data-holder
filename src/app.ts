@@ -6,11 +6,9 @@ import { Config } from './config/api.conf';
 import cors from 'cors';
 
 const options = {
-    reconnectTries: 30,
-    reconnectInterval: 500,
-    poolSize: 10,
-    bufferMaxEntries: 0,
-    useNewUrlParser: true
+    connectTimeoutMS: 3000,
+    socketTimeoutMS: 3000,
+    useNewUrlParser: true,
 };
 
 export class App {

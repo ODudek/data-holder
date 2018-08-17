@@ -1,7 +1,6 @@
-import { TDoc } from './../types';
-import { IUser } from 'types';
+import { Request, Response } from 'express';
 import { model } from 'mongoose';
-import { Response, Request } from 'express';
+import { IUser, TDoc } from 'types';
 import { UserSchema } from '../models/userSchema';
 
 const User = model('User', UserSchema);
@@ -9,16 +8,12 @@ const User = model('User', UserSchema);
 export class UserController {
 
     public getUsers(req: Request, res: Response) {
-        try {
-            User.find({}, (err: Error, users: IUser[]) => {
-                if (err) {
-                    res.status(404).send(err);
-                }
-                res.status(200).json(users);
-            });
-        } catch (e) {
-            console.log(e);
-        }
+        User.find({}, (err: Error, users: IUser[]) => {
+            if (err) {
+                res.status(404).send(err);
+            }
+            res.status(200).json(users);
+        });
     }
 
     public getUserWithId(req: Request, res: Response) {
