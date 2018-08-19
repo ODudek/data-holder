@@ -10,12 +10,12 @@ export const UserSchema = new Schema({
         street: {
             type: String,
         },
-        suite: {
-            type: String,
-        },
         zipcode: {
             type: String,
         },
+    },
+    birthDay: {
+        type: String,
     },
     company: {
         name: {
@@ -33,10 +33,10 @@ export const UserSchema = new Schema({
     firstName: {
         type: String,
     },
-    phone: {
-        type: Number,
+    lastName: {
+        type: String,
     },
-    surname: {
+    phone: {
         type: String,
     },
     username: {

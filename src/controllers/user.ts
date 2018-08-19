@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import isEmpty from 'lodash/isEmpty';
 import { model } from 'mongoose';
 import { IUser, TDoc } from 'types';
 import { UserSchema } from '../models/userSchema';
@@ -7,27 +8,53 @@ const User = model('User', UserSchema);
 
 export class UserController {
 
+    public addUser(req: Request, res: Response) {
+        User.find({ username: req.body.username }, (e: Error, uniqueUser: IUser) => {
+            if (!isEmpty(req.body.email) && !isEmpty(req.body.username)) {
+                if (isEmpty(uniqueUser)) {
+                    const newUser = new User(req.body);
+                    newUser.save((err: Error, user: TDoc) => {
+                    if (err) {
+                        res.status(404).send(err);
+                    }
+                    res.status(200).json(user);
+                });
+                } else {
+                    res.status(404).send({ message: 'Email taken!'});
+                }
+            } else {
+                res.status(404).send({ message: 'email and username are required' });
+            }
+        });
+    }
+
     public getUsers(req: Request, res: Response) {
         User.find({}, (err: Error, users: IUser[]) => {
             if (err) {
                 res.status(404).send(err);
             }
-            res.status(200).json(users);
+            res.set('Content-Type', 'application/json; charset=UTF-8');
+            res.set('Accept-Encoding', 'br');
+            res.status(200).json(JSON.stringify(users, null, 3));
         });
     }
 
     public getUserWithId(req: Request, res: Response) {
         User.findById(req.params.userId, (err: Error, user: IUser) => {
-            if (err) {
-                res.status(404).send(err);
+            if (isEmpty(user)) {
+                res.status(200).send({ message: "User doesn't exists" });
+            } else {
+                if (err) {
+                    res.status(404).send(err);
+                }
+                res.status(200).json(user);
             }
-            res.status(200).json(user);
         });
     }
 
     public updateUser(req: Request, res: Response) {
         User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true },
-            (err: Error, doc: TDoc, user: IUser) => {
+            (err: Error, user: TDoc) => {
             if (err) {
                 res.status(404).send(err);
             }

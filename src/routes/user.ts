@@ -6,7 +6,7 @@ export class UserRoutes {
     public routes(app: express.Application): void {
 
         app.route('/users')
-            // .post(this.userController.addNewUser)
+            .post(this.userController.addUser)
             .get(this.userController.getUsers);
 
         app.route('/users/:userId')
@@ -14,4 +14,4 @@ export class UserRoutes {
             .put(this.userController.updateUser)
             .delete(this.userController.deleteUser);
     }
-};
+}
