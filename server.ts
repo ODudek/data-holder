@@ -1,9 +1,6 @@
-import { App } from './src/app';
+import { App } from 'app';
 
 const DEV_PORT = 3100;
 const port = process.env.PORT || DEV_PORT;
-const app = new App().app;
-
-app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}`);
-});
+// tslint:disable-next-line:no-unused-expression
+new App(port);

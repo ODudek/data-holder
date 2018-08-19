@@ -1,12 +1,17 @@
 import { Request, Response } from 'express';
-import isEmpty from 'lodash/isEmpty';
+import { isEmpty } from 'lodash';
+import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser, TDoc } from 'types';
-import { UserSchema } from '../models/userSchema';
+// import { getUsersIds } from 'utils';
 
 const User = model('User', UserSchema);
 
 export class UserController {
+    public usersIds: string[];
+    constructor() {
+        this.usersIds = [];
+    }
 
     public addUser(req: Request, res: Response) {
         User.find({ username: req.body.username }, (e: Error, uniqueUser: IUser) => {
@@ -34,8 +39,7 @@ export class UserController {
                 res.status(404).send(err);
             }
             res.set('Content-Type', 'application/json; charset=UTF-8');
-            res.set('Accept-Encoding', 'br');
-            res.status(200).json(JSON.stringify(users, null, 3));
+            res.status(200).json(users);
         });
     }
 
@@ -70,4 +74,5 @@ export class UserController {
             res.status(200).json({ message: 'Successfully deleted user!'});
         });
     }
+
 }

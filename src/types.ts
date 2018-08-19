@@ -13,12 +13,13 @@ export interface IEnv extends DotenvResult {
 }
 
 export interface IUser {
+    _id?: string;
     address: {
         city: string,
         street: string,
         zipcode: string,
     };
-    birthDay: string,
+    birthDay: string;
     company: {
         name: string,
     };

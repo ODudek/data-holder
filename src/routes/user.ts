@@ -1,9 +1,9 @@
-import { UserController } from '../controllers/user';
-import express from 'express';
+import { UserController } from 'controllers/user';
+import { Application } from 'express';
 
 export class UserRoutes {
     public userController: UserController = new UserController();
-    public routes(app: express.Application): void {
+    public routes(app: Application): void {
 
         app.route('/users')
             .post(this.userController.addUser)
