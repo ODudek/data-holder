@@ -12,7 +12,7 @@ export const usersWithIds = (callback: (uniqueIds: string[]) => void): void => {
 	User.find((error: Error, users: IUser[]) => {
 		if (error) {
 			throw Error('usersWithIds');
-		};
+		}
 		const uniqueIds = getUsersIds(users);
 		callback(uniqueIds);
 	});

@@ -1,9 +1,10 @@
 {
     "defaultSeverity": "warning",
-    "extends": "./node_modules/tslint/lib/configs/recommended",
+    "extends": ["tslint:recommended", "tslint-eslint-rules"],
     "jsRules": {},
     "rules": {
-        "quotemark": [true, "single"]
+        "quotemark": [true, "single"],
+        "indent": false
     },
     "rulesDirectory": [],
     "linterOptions": {

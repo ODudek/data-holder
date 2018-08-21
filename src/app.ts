@@ -4,6 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import { UserRoutes } from 'routes/user';
+import { PostRoutes } from 'routes/post';
 
 const options = {
     connectTimeoutMS: 3000,
@@ -17,6 +18,7 @@ export class App {
     public userRoute: UserRoutes = new UserRoutes();
     public mongoUrl: string = Config.mongoURL;
     public port: string | number;
+    public postRoute: PostRoutes = new PostRoutes();
 
     constructor(port: string | number) {
         this.port = port;
@@ -24,6 +26,7 @@ export class App {
         this.config();
         this.mongoSetup();
         this.userRoute.routes(this.app);
+        this.postRoute.routes(this.app);
     }
 
     private config(): void {

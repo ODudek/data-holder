@@ -8,18 +8,6 @@ import { usersWithIds, getRangeOfUsers, perPage } from 'utils';
 const User = model('User', UserSchema);
 
 export class UserController {
-    public usersIds: string[];
-    constructor() {
-        this.usersIds = [];
-    }
-
-    public getUsersWithQuery(req: Request, res: Response): void {
-        console.log(req.query);
-        if (!isEmpty(req.query)) {
-            console.log(req.query);
-        }
-    }
-
     public addUser(req: Request, res: Response): void {
         User.find({ username: req.body.username }, (e: Error, uniqueUser: IUser) => {
             if (!isEmpty(req.body.email) && !isEmpty(req.body.username)) {
