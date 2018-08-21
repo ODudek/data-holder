@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node -r tsconfig-paths/register ./server.ts"
+    "dev": "ts-node -r tsconfig-paths/register ./server.ts",
+    "lint": "node_modules/.bin/tslint -p tslint.json"
   },
   "keywords": [],
   "author": "",

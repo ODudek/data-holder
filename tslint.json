@@ -1,11 +1,14 @@
 {
     "defaultSeverity": "warning",
-    "extends": [
-        "tslint:recommended"
-    ],
+    "extends": "./node_modules/tslint/lib/configs/recommended",
     "jsRules": {},
     "rules": {
         "quotemark": [true, "single"]
     },
-    "rulesDirectory": []
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "./src/utils.ts"            
+        ]
+    }
 }

@@ -7,7 +7,7 @@ export class UserRoutes {
 
         app.route('/users')
             .post(this.userController.addUser)
-            .get(this.userController.getUsers);
+            .get(this.userController.getUsers)
 
         app.route('/users/:userId')
             .get(this.userController.getUserWithId)
