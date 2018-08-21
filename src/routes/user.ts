@@ -6,6 +6,8 @@ export class UserRoutes {
 	public userController: UserController = new UserController();
 
 	public routes(app: Application): void {
+		app.route('/users/id')
+			.get(this.userController.getRandomUserId);
 
 		app.route('/users')
 			.post(this.userController.addUser)

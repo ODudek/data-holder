@@ -32,4 +32,10 @@ export interface IUser {
     website: string;
 }
 
+export interface IPost {
+    content: string;
+    title: string;
+    userId: string;
+}
+
 export type TDoc = Document | null;

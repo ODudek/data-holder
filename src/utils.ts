@@ -1,7 +1,7 @@
 import { map } from 'lodash';
 import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
-import { IUser } from 'types';
+import { IUser, IPost } from 'types';
 
 const User = model('User', UserSchema);
 export const perPage = 10;
@@ -18,4 +18,4 @@ export const usersWithIds = (callback: (uniqueIds: string[]) => void): void => {
 	});
 };
 
-export const getRangeOfUsers = (users: IUser[], page: number) => users.slice(page * perPage, (page * perPage) + perPage);
+export const getRangeOfArray = (array: Array<IUser | IPost>, page: number) => array.slice(page * perPage, (page * perPage) + perPage);

@@ -3,11 +3,18 @@ import { isEmpty } from 'lodash';
 import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser, TDoc } from 'types';
-import { usersWithIds, getRangeOfUsers, perPage } from 'utils';
+import { usersWithIds, perPage, getRangeOfArray } from 'utils';
 
 const User = model('User', UserSchema);
 
 export class UserController {
+	public getRandomUserId(req: Request, res: Response): void {
+        usersWithIds((uniqueIds) => {
+            const id = uniqueIds[Math.floor(Math.random() * uniqueIds.length)];
+            res.status(200).send({ id });
+        });
+    }
+
     public addUser(req: Request, res: Response): void {
         User.find({ username: req.body.username }, (e: Error, uniqueUser: IUser) => {
             if (!isEmpty(req.body.email) && !isEmpty(req.body.username)) {
@@ -35,7 +42,7 @@ export class UserController {
                     if (err) {
                         res.status(404).send(err);
                     }
-                    const usersOnPage = getRangeOfUsers(users, page);
+                    const usersOnPage = getRangeOfArray(users, page);
                     res.status(200).send({
                         data: usersOnPage,
                         page,

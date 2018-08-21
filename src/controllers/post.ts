@@ -1,10 +1,12 @@
-// import { Request, Response } from 'express';
 // import { isEmpty } from 'lodash';
-// import { UserSchema } from 'models/userSchema';
-// import { model } from 'mongoose';
+import { PostSchema } from 'models/postSchema';
+import { model } from 'mongoose';
 import { Request, Response } from 'express';
+import { TDoc, IPost } from 'types';
+import { perPage, getRangeOfArray } from 'utils';
+import { isEmpty } from 'lodash';
 
-// const User = model('User', UserSchema);
+const Post = model('Post', PostSchema);
 
 export class PostController {
 	public deletePost(req: Request, res: Response): void {
@@ -20,10 +22,36 @@ export class PostController {
 	}
 
 	public getPosts(req: Request, res: Response): void {
-		res.send('posts')
+		const page = req.query.page;
+		if (!isEmpty(page)) {
+			Post.find((err: Error, posts: IPost[]) => {
+				if (err) {
+					res.status(404).send(err);
+				}
+				const usersOnPage = getRangeOfArray(posts, page);
+				res.status(200).send({
+					data: usersOnPage,
+					page,
+					perPage,
+				});
+			});
+		} else {
+			Post.find((err: Error, posts: IPost[]) => {
+				if (err) {
+					res.status(404).send(err);
+				}
+				res.status(200).send(posts);
+			});
+		}
 	}
 
 	public addPost(req: Request, res: Response): void {
-		res.send('addPost')
+		const newPost = new Post(req.body);
+		newPost.save((err: Error, post: TDoc) => {
+			if (err) {
+				res.status(404).send(err);
+			}
+			res.status(200).json(post);
+		});
 	}
 }
