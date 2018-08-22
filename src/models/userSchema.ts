@@ -4,23 +4,13 @@ const Schema = mongoose.Schema;
 
 export const UserSchema = new Schema({
     address: {
-        city: {
-            type: String,
-        },
-        street: {
-            type: String,
-        },
-        zipcode: {
-            type: String,
-        },
+        city: String,
+        street: String,
+        zipcode: String,
     },
-    birthDay: {
-        type: String,
-    },
+    birthDay: String,
     company: {
-        name: {
-            type: String,
-        },
+        name: String,
     },
     createdDate: {
         default: Date.now,
@@ -30,15 +20,9 @@ export const UserSchema = new Schema({
         require,
         type: String,
     },
-    firstName: {
-        type: String,
-    },
-    lastName: {
-        type: String,
-    },
-    phone: {
-        type: String,
-    },
+    firstName: String,
+    lastName: String,
+    phone: String,
     userId: {
         require,
         type: String,
@@ -47,7 +31,5 @@ export const UserSchema = new Schema({
         require,
         type: String,
     },
-    website: {
-        type: String,
-    },
+    website: String,
 });

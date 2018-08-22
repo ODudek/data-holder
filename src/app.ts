@@ -5,6 +5,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { UserRoutes } from 'routes/user';
 import { PostRoutes } from 'routes/post';
+import { PhotoRoutes } from 'routes/photo';
 
 const options = {
     connectTimeoutMS: 3000,
@@ -19,6 +20,7 @@ export class App {
     public mongoUrl: string = Config.mongoURL;
     public port: string | number;
     public postRoute: PostRoutes = new PostRoutes();
+    public photoRoute: PhotoRoutes = new PhotoRoutes();
 
     constructor(port: string | number) {
         this.port = port;
@@ -27,6 +29,7 @@ export class App {
         this.mongoSetup();
         this.userRoute.routes(this.app);
         this.postRoute.routes(this.app);
+        this.photoRoute.routes(this.app);
     }
 
     private config(): void {

@@ -3,17 +3,17 @@ import { Application } from 'express';
 
 export class PostRoutes {
 
-	public userController: PostController = new PostController();
+	public postController: PostController = new PostController();
 
 	public routes(app: Application): void {
 
 		app.route('/posts')
-			.post(this.userController.addPost)
-			.get(this.userController.getPosts);
+			.post(this.postController.addPost)
+			.get(this.postController.getPosts);
 
 		app.route('/posts/:postId')
-			.get(this.userController.getPostWithId)
-			.put(this.userController.updatePost)
-			.delete(this.userController.deletePost);
+			.get(this.postController.getPostWithId)
+			.put(this.postController.updatePost)
+			.delete(this.postController.deletePost);
 	}
 }
