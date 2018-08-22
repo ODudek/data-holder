@@ -39,6 +39,10 @@ export const UserSchema = new Schema({
     phone: {
         type: String,
     },
+    userId: {
+        require,
+        type: String,
+    },
     username: {
         require,
         type: String,

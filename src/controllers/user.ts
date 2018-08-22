@@ -11,8 +11,12 @@ export class UserController {
 	public getRandomUserId(req: Request, res: Response): void {
         usersWithIds((uniqueIds) => {
             const id = uniqueIds[Math.floor(Math.random() * uniqueIds.length)];
-            res.status(200).send({ id });
+            res.status(200).send({ userId: id });
         });
+    }
+
+    public getUniqueId(req: Request, res: Response): void {
+        User.find((err: Error, users: IUser[]) => res.status(200).send({ userId: Number(users.length)   + 1 }));
     }
 
     public addUser(req: Request, res: Response): void {
@@ -22,7 +26,7 @@ export class UserController {
                     const newUser = new User(req.body);
                     newUser.save((err: Error, user: TDoc) => {
                         if (err) {
-                            res.status(404).send(err);
+                            res.status(404).send({user: req.body, err});
                         }
                         res.status(200).json(user);
                     });
@@ -61,45 +65,33 @@ export class UserController {
     }
 
     public getUserWithId(req: Request, res: Response): void {
-        usersWithIds((uniqueIds) => {
-            User.findById(uniqueIds[req.params.userId], (err: Error, user: IUser) => {
-                if (isEmpty(user)) {
-                    res.status(200).send({ message: 'User doesn\'t exists' });
-                } else {
-                    if (err) {
-                        res.status(404).send(err);
-                    }
-                    res.status(200).json(user);
-                }
-            });
-        });
-    }
-
-    public updateUser(req: Request, res: Response): void {
-        const id = req.params.userId;
-        usersWithIds((uniqueIds) => {
-            User.findOneAndUpdate({ _id: uniqueIds[id] }, req.body, { new: true }, (err: Error, user: TDoc) => {
+        User.findOne({ userId: req.params.userId }, (err: Error, user: IUser) => {
+            if (isEmpty(user)) {
+                res.status(200).send({ message: 'User doesn\'t exists' });
+            } else {
                 if (err) {
                     res.status(404).send(err);
                 }
                 res.status(200).json(user);
-            });
+            }
+        });
+    }
+
+    public updateUser(req: Request, res: Response): void {
+        User.findOneAndUpdate({ userId: req.params.userId }, req.body, { new: true }, (err: Error, user: TDoc) => {
+            if (err) {
+                res.status(404).send(err);
+            }
+            res.status(200).json(user);
         });
     }
 
     public deleteUser(req: Request, res: Response): void {
-        usersWithIds((uniqueIds) => {
-            const id = uniqueIds[req.params.userId];
-            if (!isEmpty(id)) {
-                User.deleteOne({ _id: id }, (err: Error) => {
-                    if (err) {
-                        res.status(404).send(err);
-                    }
-                    res.status(200).json({ message: 'Successfully deleted user!'});
-                });
-            } else {
-                res.status(404).send({ message: 'User doesn\'t exists' });
+        User.deleteOne({ userId: req.params.userId }, (err: Error) => {
+            if (err) {
+                res.status(404).send(err);
             }
+            res.status(200).json({ message: 'Successfully deleted user!'});
         });
     }
 }

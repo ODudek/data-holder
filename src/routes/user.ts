@@ -6,6 +6,9 @@ export class UserRoutes {
 	public userController: UserController = new UserController();
 
 	public routes(app: Application): void {
+		app.route('/users/counter')
+			.get(this.userController.getUniqueId);
+
 		app.route('/users/id')
 			.get(this.userController.getRandomUserId);
 
