@@ -2,7 +2,13 @@
 
 
 ## How to use
-
+1. Add `.env` file in `/src/config` like this
+```
+USER=username
+PASSWORD=password
+```
+2. In `api.conf.ts` edit url to mongodb
+3.
 ```
 $ npm install			# Install all dependencies
 $ npm run dev			# Run server on localhost:3100
