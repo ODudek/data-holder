@@ -1,5 +1,14 @@
 # RestApi placeholder
 
+
+## How to use
+
+```
+$ npm install			# Install all dependencies
+$ npm run dev			# Run server on localhost:3100
+$ npm run lint			# Run tslint for project
+```
+
 ## API
 1. User
 ```
