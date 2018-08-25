@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import compression from 'compression';
 import { Config } from 'config/api.conf';
 import cors from 'cors';
 import express from 'express';
@@ -33,6 +34,7 @@ export class App {
     }
 
     private config(): void {
+        this.app.use(compression());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors());
