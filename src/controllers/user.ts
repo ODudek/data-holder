@@ -3,17 +3,12 @@ import { isEmpty } from 'lodash';
 import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser, TDoc } from 'types';
-import { usersWithIds, perPage, getRangeOfArray } from 'utils';
+import { perPage, getRangeOfArray } from 'helpers/utils';
+import { usersWithIds } from 'helpers/userUtils';
 
 const User = model('User', UserSchema);
 
 export class UserController {
-	public getRandomUserId(req: Request, res: Response): void {
-        usersWithIds((uniqueIds) => {
-            const id = uniqueIds[Math.floor(Math.random() * uniqueIds.length)];
-            res.status(200).send({ userId: id });
-        });
-    }
 
     public getUniqueId(req: Request, res: Response): void {
         User.find((err: Error, users: IUser[]) => res.status(200).send({ userId: Number(users.length)   + 1 }));
@@ -39,7 +34,11 @@ export class UserController {
         });
     }
 
-    public getUsers(req: Request, res: Response): void {
+    public getUsers(req: Request, res: Response, next: any): void {
+        usersWithIds((uniqueIds) => {
+            console.log(uniqueIds);
+        });
+        res.setHeader('Content-Type', 'application/json; charset=UTF-8');
         const page = req.query.page;
         if (!isEmpty(page)) {
                 User.find((err: Error, users: IUser[]) => {
@@ -47,6 +46,7 @@ export class UserController {
                         res.status(404).send(err);
                     }
                     const usersOnPage = getRangeOfArray(users, page);
+                    res.setHeader('X-Content-Length', Buffer.byteLength(JSON.stringify(users), 'utf-8'));
                     res.status(200).send({
                         data: usersOnPage,
                         page,
@@ -58,8 +58,8 @@ export class UserController {
                 if (err) {
                     res.status(404).send(err);
                 }
-                res.set('Content-Type', 'application/json; charset=UTF-8');
-                res.status(200).json(users);
+                res.setHeader('X-Content-Length', Buffer.byteLength(JSON.stringify(users), 'utf-8'));
+                res.status(200).send(users);
             });
         }
     }
@@ -67,7 +67,7 @@ export class UserController {
     public getUserWithId(req: Request, res: Response): void {
         User.findOne({ userId: req.params.userId }, (err: Error, user: IUser) => {
             if (isEmpty(user)) {
-                res.status(200).send({ message: 'User doesn\'t exists' });
+                res.status(404).send({ message: 'User doesn\'t exists' });
             } else {
                 if (err) {
                     res.status(404).send(err);

@@ -37,7 +37,7 @@ export class App {
         this.app.use(compression());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(cors());
+        this.app.use(cors({ exposedHeaders: ['X-Content-Length'] }));
         this.app.options('*', cors());
     }
 

@@ -7,10 +7,7 @@ export class UserRoutes {
 
 	public routes(app: Application): void {
 		app.route('/users/counter')
-			.get(this.userController.getUniqueId);
-
-		app.route('/users/id')
-			.get(this.userController.getRandomUserId);
+			.get(this.userController.getUniqueId);;
 
 		app.route('/users')
 			.post(this.userController.addUser)

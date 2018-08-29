@@ -38,4 +38,17 @@ export interface IPost {
     userId: string;
 }
 
+export interface IObj {
+	[key: string]: string;
+}
+
+export interface IPhoto {
+    photoId: string;
+    photoUrl: string;
+    thumbUrl: string;
+    title: string;
+}
+
 export type TDoc = Document | null;
+
+export type MyArray = Array<IUser | IPost | IPhoto>;

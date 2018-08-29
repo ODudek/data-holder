@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node -r tsconfig-paths/register ./server.ts",
+    "watch": "nodemon -e ts -w ./src -x npm run dev",
     "lint": "node_modules/.bin/tslint -p tsconfig.json -c tslint.json"
   },
   "keywords": [],

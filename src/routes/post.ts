@@ -7,6 +7,9 @@ export class PostRoutes {
 
 	public routes(app: Application): void {
 
+		app.route('/posts/counter')
+			.get(this.postController.getUniqueId);
+
 		app.route('/posts')
 			.post(this.postController.addPost)
 			.get(this.postController.getPosts);
