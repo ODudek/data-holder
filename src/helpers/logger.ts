@@ -2,9 +2,9 @@ import { makeSentance } from './utils';
 import chalk from 'chalk';
 // tslint:disable:no-console
 
-export const logger = (message: string) => console.log(chalk.magenta(message));
+export const logger = (message: string): void => console.log(chalk.magenta(message));
 
-export const errorLogger = (message: string, typeError?: string) => {
+export const errorLogger = (message: string, typeError?: string): void => {
     if (typeError) {
         console.log(`${chalk.red(makeSentance(typeError))}: ${message}`);
     } else {

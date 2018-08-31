@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 const Post = model('Post', PostSchema);
 
 export class PostController {
+
 	public deletePost(req: Request, res: Response): void {
 		res.send('delete')
 	}

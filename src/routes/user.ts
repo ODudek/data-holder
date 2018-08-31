@@ -7,7 +7,7 @@ export class UserRoutes {
 
 	public routes(app: Application): void {
 		app.route('/users/counter')
-			.get(this.userController.getUniqueId);;
+			.get(this.userController.getUniqueId);
 
 		app.route('/users')
 			.post(this.userController.addUser)

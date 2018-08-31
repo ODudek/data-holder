@@ -5,7 +5,7 @@ export const perPage = 10;
 
 export const getIds = <T>(array: T[], idName: string) => map(array, (element: IObj) => element[idName]);
 
-export const getRangeOfArray = (array: MyArray, page: number) =>
+export const getRangeOfArray = (array: MyArray, page: number): MyArray =>
     array.slice(page * perPage, (page * perPage) + perPage);
 
 export const makeSentance = (sentance: string): string => {
