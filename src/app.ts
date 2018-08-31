@@ -1,3 +1,4 @@
+import { logger } from './helpers/logger';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import { Config } from 'config/api.conf';
@@ -7,6 +8,7 @@ import mongoose from 'mongoose';
 import { UserRoutes } from 'routes/user';
 import { PostRoutes } from 'routes/post';
 import { PhotoRoutes } from 'routes/photo';
+import { errorLogger } from 'helpers/logger';
 
 const options = {
     connectTimeoutMS: 3000,
@@ -46,13 +48,13 @@ export class App {
         mongoose
             .connect(this.mongoUrl, options)
             .then(() => {
-                console.log('Connected to database!');
+                logger('Connected to database!');
                 this.app.listen(this.port, () => {
-                    console.log(`Listening at http://localhost:${this.port}`);
+                    logger(`Listening at http://localhost:${this.port}`);
                 });
             })
             .catch((err: Error) => {
-                console.log('Not connected, ERROR! ', err);
+                errorLogger('Not connected!', err.name);
             });
     }
 }
