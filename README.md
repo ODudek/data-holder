@@ -1,5 +1,5 @@
 # RestApi placeholder
-
+[![Build Status](https://travis-ci.org/ODudek/restApi-placeholder.svg?branch=master)](https://travis-ci.org/ODudek/restApi-placeholder)
 
 ## How to use
 1. Add `.env` file in `/src/config` like this
@@ -22,7 +22,7 @@ $ get /users			# Return array of all users
 $ get /users?page=1		# Return array of 10 users
 $ post /users			# Add new user
 $ get /users/3			# Return object of user
-$ put /users/3			# Update user
+$ put /users/3			# Update user and return updated version
 $ delete /users/3		# Remove user
 ```
 
@@ -31,6 +31,9 @@ $ delete /users/3		# Remove user
 $ get /posts			# Return array of all posts
 $ get /posts?page=1		# Return array of 10 posts
 $ post /posts			# Add new post
+$ get /posts/3			# Return object of post
+$ put /posts/3			# Update post and return updated version
+$ delete /users/3		# Remove post
 ```
 
 3. Photo
