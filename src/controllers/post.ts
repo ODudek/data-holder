@@ -4,10 +4,14 @@ import { Request, Response } from 'express';
 import { TDoc, IPost } from 'types';
 import { perPage, getRangeOfArray } from 'helpers/utils';
 import { isEmpty } from 'lodash';
+import { postRandomId } from 'helpers/postUtils';
 
 const Post = model('Post', PostSchema);
 
 export class PostController {
+	public getRandomUserId(req: Request, res: Response): void {
+		postRandomId(res);
+	}
 
 	public deletePost(req: Request, res: Response): void {
 		res.send('delete')

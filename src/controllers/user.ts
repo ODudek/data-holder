@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { isEmpty } from 'lodash';
+import { isEmpty, sample } from 'lodash';
 import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser, TDoc } from 'types';
-import { perPage, getRangeOfArray } from 'helpers/utils';
-import { usersWithIds } from 'helpers/userUtils';
+import { perPage, getRangeOfArray, getIds } from 'helpers/utils';
 
 const User = model('User', UserSchema);
 
@@ -12,6 +11,16 @@ export class UserController {
 
     public getUniqueId(req: Request, res: Response): void {
         User.find((err: Error, users: IUser[]) => res.status(200).send({ userId: Number(users.length)   + 1 }));
+    }
+
+    public getRandomUserId(req: Request, res: Response): void {
+        User.find((error: Error, users: IUser[]) => {
+            if (error) {
+                throw Error('userRandomId');
+            }
+            const IdsArray = getIds(users, 'userId');
+            res.status(200).send({ userId: sample(IdsArray) });
+        });
     }
 
     public addUser(req: Request, res: Response): void {
@@ -35,9 +44,6 @@ export class UserController {
     }
 
     public getUsers(req: Request, res: Response, next: any): void {
-        usersWithIds((uniqueIds) => {
-            console.log(uniqueIds);
-        });
         res.setHeader('Content-Type', 'application/json; charset=UTF-8');
         const page = req.query.page;
         if (!isEmpty(page)) {

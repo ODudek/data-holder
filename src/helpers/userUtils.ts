@@ -2,15 +2,17 @@ import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser } from 'types';
 import { getIds } from 'helpers/utils';
+import { sample } from 'lodash';
+import { Response } from 'express';
 
 const User = model('User', UserSchema);
 
-export const usersWithIds = (callback: (uniqueIds: boolean[]) => void): void => {
+export const userRandomId = (res: Response): void => {
 	User.find((error: Error, users: IUser[]) => {
 		if (error) {
-			throw Error('usersWithIds');
+			res.status(404).send({ message: 'Cannot find any user!' });
 		}
-		const uniqueIds = getIds(users, 'userId');
-		callback(uniqueIds);
+		const IdsArray = getIds(users, 'userId');
+		res.status(200).send({ userId: sample(IdsArray) });
 	});
 };
