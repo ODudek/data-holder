@@ -14,15 +14,33 @@ export class PostController {
 	}
 
 	public deletePost(req: Request, res: Response): void {
-		res.send('delete')
+		Post.findOneAndRemove({ postId: req.params.postId }, (err: Error, post: TDoc) => {
+			if (err) {
+				res.status(404).send({ message: 'Cannot find and remove post!' });
+			}
+			if (isEmpty(post)) {
+				res.status(404).send({ message: 'Post doesn\'t exsits!' });
+			} else {
+				res.status(200).send({ message: 'Removed post!', data: post });
+			}
+		});
 	}
 
 	public getUniqueId(req: Request, res: Response): void {
-        Post.find((err: Error, posts: IPost[]) => res.status(200).send({ postId: Number(posts.length)   + 1 }));
+        Post.find((err: Error, posts: IPost[]) => res.status(200).send({ postId: Number(posts.length) + 1 }));
     }
 
 	public updatePost(req: Request, res: Response): void {
-		res.send('update')
+		Post.findOneAndUpdate({ postId: req.params.postId }, req.body, { new: true }, (err: Error, post: TDoc) => {
+			if (err) {
+				res.status(404).send({ message: 'Cannot find and remove post!' });
+			}
+			if (isEmpty(post)) {
+				res.status(404).send({ message: 'Post doesn\'t exsits!' });
+			} else {
+				res.status(200).send({ message: 'Post updated!', data: post });
+			}
+		});
 	}
 
 	public getPostWithId(req: Request, res: Response): void {
