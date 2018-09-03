@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { TDoc, IPost } from 'types';
 import { perPage, getRangeOfArray } from 'helpers/utils';
 import { isEmpty } from 'lodash';
-import { postRandomId } from 'helpers/postUtils';
+import { postRandomId, isValidPost } from 'helpers/postUtils';
 
 const Post = model('Post', PostSchema);
 
@@ -27,7 +27,12 @@ export class PostController {
 	}
 
 	public getUniqueId(req: Request, res: Response): void {
-        Post.find((err: Error, posts: IPost[]) => res.status(200).json({ postId: Number(posts.length) + 1 }));
+        Post.find((err: Error, posts: IPost[]) => {
+            if (err) {
+                res.status(404).json({ message: 'Cannot find photos!', err });
+            }
+            res.status(200).json({ postId: Number(posts.length) + 1 });
+        });
     }
 
 	public updatePost(req: Request, res: Response): void {
@@ -49,7 +54,7 @@ export class PostController {
 				res.status(404).json({ message: 'Post doesn\'t exists' });
 			} else {
 				if (err) {
-					res.status(404).json(err);
+					res.status(404).json({ message: 'Cannot find post', err });
 				}
 				res.status(200).json(post);
 			}
@@ -61,7 +66,7 @@ export class PostController {
 		if (!isEmpty(page)) {
 			Post.find((err: Error, posts: IPost[]) => {
 				if (err) {
-					res.status(404).json(err);
+					res.status(404).json({ message: 'Cannot find posts!', err });
 				}
 				const usersOnPage = getRangeOfArray(posts, page);
 				res.status(200).json({
@@ -73,7 +78,7 @@ export class PostController {
 		} else {
 			Post.find((err: Error, posts: IPost[]) => {
 				if (err) {
-					res.status(404).json(err);
+					res.status(404).json({ message: 'Cannot find posts!', err });
 				}
 				res.status(200).json(posts);
 			});
@@ -81,12 +86,16 @@ export class PostController {
 	}
 
 	public addPost(req: Request, res: Response): void {
-		const newPost = new Post(req.body);
-		newPost.save((err: Error, post: TDoc) => {
-			if (err) {
-				res.status(404).json(err);
-			}
-			res.status(200).json(post);
-		});
+        if (isValidPost(req)) {
+            const newPost = new Post(req.body);
+            newPost.save((err: Error, post: TDoc) => {
+                if (err) {
+                    res.status(404).json({ message: 'Cannot add post!', err });
+                }
+                res.status(200).json(post);
+            });
+        } else {
+            res.status(404).json({ message: 'Check all required fields! '});
+        }
 	}
 }

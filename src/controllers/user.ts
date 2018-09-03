@@ -4,19 +4,25 @@ import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser, TDoc } from 'types';
 import { perPage, getRangeOfArray, getIds } from 'helpers/utils';
+import { isValidUser } from 'helpers/userUtils';
 
 const User = model('User', UserSchema);
 
 export class UserController {
 
     public getUniqueId(req: Request, res: Response): void {
-        User.find((err: Error, users: IUser[]) => res.status(200).json({ userId: Number(users.length)   + 1 }));
+        User.find((err: Error, users: IUser[]) => {
+            if (err) {
+                res.status(404).json({ message: 'Cannot get users' , err });
+            }
+            res.status(200).json({ userId: Number(users.length)   + 1 });
+        });
     }
 
     public getRandomUserId(req: Request, res: Response): void {
-        User.find((error: Error, users: IUser[]) => {
-            if (error) {
-                throw Error('userRandomId');
+        User.find((err: Error, users: IUser[]) => {
+            if (err) {
+                res.status(404).json({ message: 'Cannot get users' , err });
             }
             const IdsArray = getIds(users, 'userId');
             res.status(200).json({ userId: sample(IdsArray) });
@@ -24,21 +30,21 @@ export class UserController {
     }
 
     public addUser(req: Request, res: Response): void {
-        User.find({ username: req.body.username }, (e: Error, uniqueUser: IUser) => {
-            if (!isEmpty(req.body.email) && !isEmpty(req.body.username)) {
-                if (isEmpty(uniqueUser)) {
+        User.find({ username: req.body.username }, (err: Error, uniqueUser: IUser) => {
+            if (err) {
+                res.status(404).json({ message: 'Cannot get user!', err });
+            } else {
+                if (isValidUser(req, uniqueUser)) {
                     const newUser = new User(req.body);
-                    newUser.save((err: Error, user: TDoc) => {
-                        if (err) {
-                            res.status(404).json({user: req.body, err});
+                    newUser.save((e: Error, user: TDoc) => {
+                        if (e) {
+                            res.status(404).json({ message: 'Cannot save user!', err });
                         }
                         res.status(200).json(user);
                     });
                 } else {
-                    res.status(404).json({ message: 'Email taken!'});
+                    res.status(404).json({ message: 'Check all required fileds!' });
                 }
-            } else {
-                res.status(404).json({ message: 'email and username are required' });
             }
         });
     }
@@ -48,7 +54,7 @@ export class UserController {
         if (!isEmpty(page)) {
                 User.find((err: Error, users: IUser[]) => {
                     if (err) {
-                        res.status(404).json(err);
+                        res.status(404).json({ message: 'Cannot find users!', err });
                     }
                     const usersOnPage = getRangeOfArray(users, page);
                     res.setHeader('X-Content-Length', Buffer.byteLength(JSON.stringify(users), 'utf-8'));
@@ -61,7 +67,7 @@ export class UserController {
         } else {
             User.find({}, (err: Error, users: IUser[]) => {
                 if (err) {
-                    res.status(404).json(err);
+                    res.status(404).json({ message: 'Cannot find users!', err });
                 }
                 res.setHeader('X-Content-Length', Buffer.byteLength(JSON.stringify(users), 'utf-8'));
                 res.status(200).json(users);
@@ -71,12 +77,12 @@ export class UserController {
 
     public getUserWithId(req: Request, res: Response): void {
         User.findOne({ userId: req.params.userId }, (err: Error, user: IUser) => {
+            if (err) {
+                res.status(404).json({ message: 'Cannot find user!' , err });
+            }
             if (isEmpty(user)) {
                 res.status(404).json({ message: 'User doesn\'t exists' });
             } else {
-                if (err) {
-                    res.status(404).json(err);
-                }
                 res.status(200).json(user);
             }
         });
@@ -85,18 +91,18 @@ export class UserController {
     public updateUser(req: Request, res: Response): void {
         User.findOneAndUpdate({ userId: req.params.userId }, req.body, { new: true }, (err: Error, user: TDoc) => {
             if (err) {
-                res.status(404).json(err);
+                res.status(404).json({message: 'Cannot find and update user!', err });
             }
             res.status(200).json(user);
         });
     }
 
     public deleteUser(req: Request, res: Response): void {
-        User.deleteOne({ userId: req.params.userId }, (err: Error) => {
+        User.findOneAndRemove({ userId: req.params.userId }, (err: Error, user: TDoc) => {
             if (err) {
-                res.status(404).json(err);
+                res.status(404).json({ message: 'Cannot find and delete user!', err });
             }
-            res.status(200).json({ message: 'Successfully deleted user!'});
+            res.status(200).json({ message: 'Successfully deleted user!', data: user });
         });
     }
 }

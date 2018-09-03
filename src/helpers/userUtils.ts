@@ -2,8 +2,8 @@ import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser } from 'types';
 import { getIds } from 'helpers/utils';
-import { sample } from 'lodash';
-import { Response } from 'express';
+import { sample, isEmpty } from 'lodash';
+import { Response, Request } from 'express';
 
 const User = model('User', UserSchema);
 
@@ -16,3 +16,6 @@ export const userRandomId = (res: Response): void => {
 		res.status(200).json({ userId: sample(IdsArray) });
 	});
 };
+
+export const isValidUser = (req: Request, user: IUser): boolean =>
+    !isEmpty(req.body.email) && !isEmpty(req.body.username) && !isEmpty(req.body.userId) && isEmpty(user);
