@@ -39,7 +39,7 @@ $ delete /posts/3		# Remove post
 3. Photo
 ```
 $ get /photos			# Return array of all photos
-$ get /photos?page=1	# Return array of 10 photos
+$ get /photos?page=1	  # Return array of 10 photos
 $ post /photos			# Add new photo
 $ get /photos/3			# Return object of photo
 $ put /photos/3			# Update photo and return updated version
