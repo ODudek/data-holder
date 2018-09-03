@@ -14,9 +14,9 @@ export class PhotoController {
     public getUniqueId(req: Request, res: Response): void {
         Photo.find((err: Error, photos: IPhoto[]) => {
             if (err) {
-				res.status(404).send({ message: 'Cannot photos!' });
+				res.status(404).json({ message: 'Cannot photos!' });
             }
-            res.status(200).send({ photoId: Number(photos.length) + 1 });
+            res.status(200).json({ photoId: Number(photos.length) + 1 });
         });
     }
 
@@ -27,12 +27,12 @@ export class PhotoController {
 	public deletePhoto(req: Request, res: Response): void {
         Photo.findOneAndRemove({ photoId: req.params.postId }, (err: Error, photo: TDoc) => {
             if (err) {
-                res.status(404).send({ message: 'Cannot find and remove photo!', err });
+                res.status(404).json({ message: 'Cannot find and remove photo!', err });
             }
             if (isEmpty(photo)) {
-                res.status(404).send({message: 'Photo doesn\'t exists!' });
+                res.status(404).json({message: 'Photo doesn\'t exists!' });
             } else {
-                res.status(200).send({ message: 'Removed photo!', data: photo });
+                res.status(200).json({ message: 'Removed photo!', data: photo });
             }
         });
 	}
@@ -40,12 +40,12 @@ export class PhotoController {
 	public updatePhoto(req: Request, res: Response): void {
         Photo.findOneAndUpdate({ photoId: req.params.photoId }, req.body, { new: true }, (err: Error, photo: TDoc) => {
             if (err) {
-                res.status(404).send({ message: 'Cannot find and update photo!', err });
+                res.status(404).json({ message: 'Cannot find and update photo!', err });
             }
             if (isEmpty(photo)) {
-                res.status(404).send({ message: 'Photo doesn\'t exists!' });
+                res.status(404).json({ message: 'Photo doesn\'t exists!' });
             } else {
-                res.status(200).send({ message: 'Photo updated!', data: photo });
+                res.status(200).json({ message: 'Photo updated!', data: photo });
             }
         });
 	}
@@ -53,12 +53,12 @@ export class PhotoController {
 	public getPhotoWithId(req: Request, res: Response): void {
         Photo.findOne({ postId: req.params.postId }, (err: Error, photo: TDoc) => {
             if (err) {
-                res.status(404).send({ message: 'Cannot find photo', err });
+                res.status(404).json({ message: 'Cannot find photo', err });
             }
             if (isEmpty(photo)) {
-                res.status(404).send({ message: 'Photo doesn\'t exists!' });
+                res.status(404).json({ message: 'Photo doesn\'t exists!' });
             } else {
-                res.status(200).send(photo);
+                res.status(200).json(photo);
             }
         });
 	}
@@ -67,9 +67,9 @@ export class PhotoController {
         const newPhoto = new Photo(req.body);
         newPhoto.save((err: Error, photo: TDoc) => {
             if (err) {
-                res.status(404).send({ message: 'Cannot save new Photo', err });
+                res.status(404).json({ message: 'Cannot save new Photo', err });
             }
-            res.status(200).send(photo);
+            res.status(200).json(photo);
         });
 	}
 
@@ -78,10 +78,10 @@ export class PhotoController {
         if (!isEmpty(page)) {
             Photo.find((err: Error, photos: IPhoto[]) => {
                 if (err) {
-                    res.status(404).send({ message: 'Cannot get photos', err });
+                    res.status(404).json({ message: 'Cannot get photos', err });
                 }
                 const photosFromQuery = getRangeOfArray(photos, page);
-                res.status(200).send({
+                res.status(200).json({
                     data: photosFromQuery,
                     page,
                     perPage,
@@ -90,9 +90,9 @@ export class PhotoController {
         } else {
             Photo.find((err: Error, photos: IPhoto[]) => {
                 if (err) {
-                    res.status(404).send({ message: 'Cannot get photos', err });
+                    res.status(404).json({ message: 'Cannot get photos', err });
                 }
-                res.status(200).send(photos);
+                res.status(200).json(photos);
             });
         }
 	}

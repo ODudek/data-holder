@@ -10,9 +10,9 @@ const User = model('User', UserSchema);
 export const userRandomId = (res: Response): void => {
 	User.find((error: Error, users: IUser[]) => {
 		if (error) {
-			res.status(404).send({ message: 'Cannot find any user!' });
+			res.status(404).json({ message: 'Cannot find any user!' });
 		}
 		const IdsArray = getIds(users, 'userId');
-		res.status(200).send({ userId: sample(IdsArray) });
+		res.status(200).json({ userId: sample(IdsArray) });
 	});
 };

@@ -10,9 +10,9 @@ const Post = model('Post', PostSchema);
 export const postRandomId = (res: Response): void => {
 	Post.find((error: Error, posts: IPost[]) => {
 		if (error) {
-			res.status(404).send({ message: 'Cannot find any post!' });
+			res.status(404).json({ message: 'Cannot find any post!' });
 		}
 		const IdsArray = getIds(posts, 'postId');
-		res.status(200).send({ postId: sample(IdsArray) });
+		res.status(200).json({ postId: sample(IdsArray) });
 	});
 };
