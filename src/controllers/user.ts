@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
+import { isValidUser } from 'helpers/userUtils';
+import { getIds, getRangeOfArray, perPage } from 'helpers/utils';
 import { isEmpty, sample } from 'lodash';
 import { UserSchema } from 'models/userSchema';
 import { model } from 'mongoose';
 import { IUser, TDoc } from 'types';
-import { perPage, getRangeOfArray, getIds } from 'helpers/utils';
-import { isValidUser } from 'helpers/userUtils';
 
 const User = model('User', UserSchema);
 

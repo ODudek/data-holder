@@ -1,10 +1,10 @@
+import { Request, Response } from 'express';
+import { isValidPost } from 'helpers/postUtils';
+import { getIds, getRangeOfArray, perPage } from 'helpers/utils';
+import { isEmpty, sample } from 'lodash';
 import { PostSchema } from 'models/postSchema';
 import { model } from 'mongoose';
-import { Request, Response } from 'express';
-import { TDoc, IPost } from 'types';
-import { perPage, getRangeOfArray, getIds } from 'helpers/utils';
-import { isEmpty, sample } from 'lodash';
-import { isValidPost } from 'helpers/postUtils';
+import { IPost, TDoc } from 'types';
 
 const Post = model('Post', PostSchema);
 

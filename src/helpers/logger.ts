@@ -1,5 +1,5 @@
-import { makeSentance } from './utils';
 import chalk from 'chalk';
+import { makeSentance } from './utils';
 // tslint:disable:no-console
 
 export const logger = (message: string): void => console.log(chalk.magenta(message));
