@@ -5,7 +5,7 @@ import { TDoc } from 'types';
 import { Request, Response } from "express";
 import { PhotoSchema } from "models/photoSchema";
 import { model } from "mongoose";
-import { photoRandomId } from 'helpers/photoUtils';
+import { photoRandomId, isValidPhoto } from 'helpers/photoUtils';
 
 const Photo = model('Photo', PhotoSchema);
 
@@ -64,13 +64,17 @@ export class PhotoController {
 	}
 
 	public addPhoto(req: Request, res: Response): void {
-        const newPhoto = new Photo(req.body);
-        newPhoto.save((err: Error, photo: TDoc) => {
-            if (err) {
-                res.status(404).json({ message: 'Cannot save new Photo', err });
-            }
-            res.status(200).json(photo);
-        });
+        if (isValidPhoto(req)) {
+            const newPhoto = new Photo(req.body);
+            newPhoto.save((err: Error, photo: TDoc) => {
+                if (err) {
+                    res.status(404).json({ message: 'Cannot save new Photo', err });
+                }
+                res.status(200).json(photo);
+            });
+        } else {
+            res.status(404).json({ message: 'Check all required fields!' });
+        }
 	}
 
 	public getPhotos(req: Request, res: Response): void {
