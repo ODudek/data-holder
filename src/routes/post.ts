@@ -8,7 +8,7 @@ export class PostRoutes {
 	public routes(app: Application): void {
 
 		app.route('/posts/id')
-			.get(this.postController.getRandomUserId);
+			.get(this.postController.getRandomPostId);
 
 		app.route('/posts/counter')
 			.get(this.postController.getUniqueId);

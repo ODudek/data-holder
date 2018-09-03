@@ -33,19 +33,24 @@ $ get /posts?page=1		# Return array of 10 posts
 $ post /posts			# Add new post
 $ get /posts/3			# Return object of post
 $ put /posts/3			# Update post and return updated version
-$ delete /users/3		# Remove post
+$ delete /posts/3		# Remove post
 ```
 
 3. Photo
 ```
-
+$ get /photos			# Return array of all photos
+$ get /photos?page=1	# Return array of 10 photos
+$ post /photos			# Add new photo
+$ get /photos/3			# Return object of photo
+$ put /photos/3			# Update photo and return updated version
+$ delete /photos/3		# Remove photo
 ```
 
 ## TODO
 
 1. - [x] - Finish user api
-2. - [ ] - Finish post api
-3. - [ ] - Finish photo api
+2. - [x] - Finish post api
+3. - [x] - Finish photo api
 4. - [ ] - Better error handling
 
 

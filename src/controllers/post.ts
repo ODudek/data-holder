@@ -9,7 +9,7 @@ import { postRandomId } from 'helpers/postUtils';
 const Post = model('Post', PostSchema);
 
 export class PostController {
-	public getRandomUserId(req: Request, res: Response): void {
+	public getRandomPostId(req: Request, res: Response): void {
 		postRandomId(res);
 	}
 
@@ -33,7 +33,7 @@ export class PostController {
 	public updatePost(req: Request, res: Response): void {
 		Post.findOneAndUpdate({ postId: req.params.postId }, req.body, { new: true }, (err: Error, post: TDoc) => {
 			if (err) {
-				res.status(404).send({ message: 'Cannot find and remove post!' });
+				res.status(404).send({ message: 'Cannot find and update post!' });
 			}
 			if (isEmpty(post)) {
 				res.status(404).send({ message: 'Post doesn\'t exsits!' });
