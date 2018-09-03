@@ -1,4 +1,4 @@
-# RestApi placeholder
+# Data holder
 [![Build Status](https://travis-ci.org/ODudek/restApi-placeholder.svg?branch=master)](https://travis-ci.org/ODudek/restApi-placeholder)
 
 ## How to use
