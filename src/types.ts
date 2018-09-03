@@ -13,7 +13,6 @@ export interface IEnv extends DotenvResult {
 }
 
 export interface IUser {
-    _id?: string;
     address: {
         city: string,
         street: string,
@@ -30,6 +29,7 @@ export interface IUser {
     phone: string;
     username: string;
     website: string;
+    userId: string;
 }
 
 export interface IPost {

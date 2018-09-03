@@ -1,11 +1,11 @@
-import { getRangeOfArray, perPage } from 'helpers/utils';
+import { getRangeOfArray, perPage, getIds } from 'helpers/utils';
 import { IPhoto } from 'types';
-import { isEmpty } from 'lodash';
+import { isEmpty, sample } from 'lodash';
 import { TDoc } from 'types';
 import { Request, Response } from "express";
 import { PhotoSchema } from "models/photoSchema";
 import { model } from "mongoose";
-import { photoRandomId, isValidPhoto } from 'helpers/photoUtils';
+import { isValidPhoto } from 'helpers/photoUtils';
 
 const Photo = model('Photo', PhotoSchema);
 
@@ -21,7 +21,13 @@ export class PhotoController {
     }
 
     public getRandomPhotoId(req: Request, res: Response): void {
-        photoRandomId(res);
+        Photo.find((err: Error, photos: IPhoto[]) => {
+            if (err) {
+                res.status(404).json({ message: 'Cannot find any post!', err });
+            }
+            const IdsArray = getIds(photos, 'postId');
+            res.status(200).json({ photoId: sample(IdsArray) });
+        });
     }
 
 	public deletePhoto(req: Request, res: Response): void {
