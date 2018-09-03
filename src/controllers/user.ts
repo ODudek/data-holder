@@ -15,14 +15,14 @@ export class UserController {
             if (err) {
                 res.status(404).json({ message: 'Cannot get users' , err });
             }
-            res.status(200).json({ userId: Number(users.length)   + 1 });
+            res.status(200).json({ userId: Number(users.length) + 1 });
         });
     }
 
     public getRandomUserId(req: Request, res: Response): void {
         User.find((err: Error, users: IUser[]) => {
             if (err) {
-                res.status(404).json({ message: 'Cannot get users' , err });
+                res.status(404).json({ message: 'Cannot find any user!', err });
             }
             const IdsArray = getIds(users, 'userId');
             res.status(200).json({ userId: sample(IdsArray) });

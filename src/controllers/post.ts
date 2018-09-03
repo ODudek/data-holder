@@ -2,15 +2,22 @@ import { PostSchema } from 'models/postSchema';
 import { model } from 'mongoose';
 import { Request, Response } from 'express';
 import { TDoc, IPost } from 'types';
-import { perPage, getRangeOfArray } from 'helpers/utils';
-import { isEmpty } from 'lodash';
-import { postRandomId, isValidPost } from 'helpers/postUtils';
+import { perPage, getRangeOfArray, getIds } from 'helpers/utils';
+import { isEmpty, sample } from 'lodash';
+import { isValidPost } from 'helpers/postUtils';
 
 const Post = model('Post', PostSchema);
 
 export class PostController {
-	public getRandomPostId(req: Request, res: Response): void {
-		postRandomId(res);
+
+    public getRandomPostId(req: Request, res: Response): void {
+        Post.find((err: Error, posts: IPost[]) => {
+            if (err) {
+                res.status(404).json({ message: 'Cannot find any post!', err });
+            }
+            const IdsArray = getIds(posts, 'postId');
+            res.status(200).json({ postId: sample(IdsArray) });
+        });
 	}
 
 	public deletePost(req: Request, res: Response): void {
