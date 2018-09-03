@@ -10,9 +10,9 @@ const Photo = model('Photo', PhotoSchema);
 export const photoRandomId = (res: Response): void => {
 	Photo.find((error: Error, photos: IPhoto[]) => {
 		if (error) {
-			res.status(404).send({ message: 'Cannot find any post!' });
+			res.status(404).json({ message: 'Cannot find any post!' });
 		}
 		const IdsArray = getIds(photos, 'postId');
-		res.status(200).send({ photoId: sample(IdsArray) });
+		res.status(200).json({ photoId: sample(IdsArray) });
 	});
 };
