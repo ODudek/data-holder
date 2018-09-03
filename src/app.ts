@@ -1,14 +1,13 @@
-import { logger } from './helpers/logger';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import { Config } from 'config/api.conf';
 import cors from 'cors';
 import express from 'express';
+import { errorLogger, logger } from 'helpers/logger';
 import mongoose from 'mongoose';
-import { UserRoutes } from 'routes/user';
-import { PostRoutes } from 'routes/post';
 import { PhotoRoutes } from 'routes/photo';
-import { errorLogger } from 'helpers/logger';
+import { PostRoutes } from 'routes/post';
+import { UserRoutes } from 'routes/user';
 
 const options = {
     connectTimeoutMS: 3000,

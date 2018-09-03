@@ -1,4 +1,4 @@
-import { map, capitalize } from 'lodash';
+import { capitalize, map } from 'lodash';
 import { IObj, MyArray } from 'types';
 
 export const perPage = 10;

@@ -1,11 +1,10 @@
-import { getRangeOfArray, perPage, getIds } from 'helpers/utils';
-import { IPhoto } from 'types';
-import { isEmpty, sample } from 'lodash';
-import { TDoc } from 'types';
-import { Request, Response } from "express";
-import { PhotoSchema } from "models/photoSchema";
-import { model } from "mongoose";
+import { Request, Response } from 'express';
 import { isValidPhoto } from 'helpers/photoUtils';
+import { getIds, getRangeOfArray, perPage  } from 'helpers/utils';
+import { isEmpty, sample } from 'lodash';
+import { PhotoSchema } from 'models/photoSchema';
+import { model } from 'mongoose';
+import { IPhoto, TDoc } from 'types';
 
 const Photo = model('Photo', PhotoSchema);
 

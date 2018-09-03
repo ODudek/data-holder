@@ -1,5 +1,5 @@
-import { Application } from 'express';
 import { PhotoController } from 'controllers/photo';
+import { Application } from 'express';
 
 export class PhotoRoutes {
 
