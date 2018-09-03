@@ -7,10 +7,17 @@ export class PhotoRoutes {
 
 	public routes(app: Application): void {
 
-		app.route('/photos')
+        app.route('/photos/id')
+            .get(this.photoController.getRandomPhotoId);
+
+        app.route('/photos/counter')
+            .get(this.photoController.getUniqueId);
+
+        app.route('/photos')
 			.get(this.photoController.getPhotos)
-			.post(this.photoController.addPhoto);
-		app.route('/photos/:photoId')
+            .post(this.photoController.addPhoto);
+
+        app.route('/photos/:photoId')
 			.get(this.photoController.getPhotoWithId)
 			.put(this.photoController.updatePhoto)
 			.delete(this.photoController.deletePhoto);
