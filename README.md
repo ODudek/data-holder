@@ -1,5 +1,5 @@
 # Data holder
-[![Build Status](https://travis-ci.org/ODudek/restApi-placeholder.svg?branch=master)](https://travis-ci.org/ODudek/restApi-placeholder)
+[![Build Status](https://travis-ci.org/ODudek/data-holder.svg?branch=master)](https://travis-ci.org/ODudek/data-holder)
 
 ## How to use
 1. Add `.env` file in `/src/config` like this
