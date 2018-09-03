@@ -51,7 +51,8 @@ $ delete /photos/3		# Remove photo
 1. - [x] - Finish user api
 2. - [x] - Finish post api
 3. - [x] - Finish photo api
-4. - [ ] - Better error handling
+4. - [x] - Better error handling
+5. - [ ] - tslint fix 
 
 
 ## License 
