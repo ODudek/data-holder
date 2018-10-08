@@ -22,15 +22,15 @@ export class PhotoController {
     public getRandomPhotoId(req: Request, res: Response): void {
         Photo.find((err: Error, photos: IPhoto[]) => {
             if (err) {
-                res.status(404).json({ message: 'Cannot find any post!', err });
+                res.status(404).json({ message: 'Cannot find any photo!', err });
             }
-            const IdsArray = getIds(photos, 'postId');
+            const IdsArray = getIds(photos, 'photoId');
             res.status(200).json({ photoId: sample(IdsArray) });
         });
     }
 
 	public deletePhoto(req: Request, res: Response): void {
-        Photo.findOneAndRemove({ photoId: req.params.postId }, (err: Error, photo: TDoc) => {
+        Photo.findOneAndRemove({ photoId: req.params.photoId }, (err: Error, photo: TDoc) => {
             if (err) {
                 res.status(404).json({ message: 'Cannot find and remove photo!', err });
             }
@@ -56,7 +56,7 @@ export class PhotoController {
 	}
 
 	public getPhotoWithId(req: Request, res: Response): void {
-        Photo.findOne({ postId: req.params.postId }, (err: Error, photo: TDoc) => {
+        Photo.findOne({ photoId: req.params.photoId }, (err: Error, photo: TDoc) => {
             if (err) {
                 res.status(404).json({ message: 'Cannot find photo', err });
             }
