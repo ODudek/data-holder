@@ -43,6 +43,8 @@ export class UserController {
                         res.status(200).json(user);
                     });
                 } else {
+					/* eslint-disable no-console */
+					console.log(req.body);
                     res.status(404).json({ message: 'Check all required fileds!' });
                 }
             }

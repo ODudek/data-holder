@@ -1,4 +1,3 @@
 import { Request } from 'express';
-import { isEmpty } from 'lodash';
 
-export const isValidPhoto = (req: Request): boolean => !isEmpty(req.body.photoId);
+export const isValidPhoto = (req: Request): boolean => req.body.photoId;
